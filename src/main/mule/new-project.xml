@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a3f2d662-d737-4a9a-800c-255b9c8a8603" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="327a719d-d171-4408-8f6a-96fa66328440" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Miracle@1" database="oderapi" />
+	</db:config>
+	<flow name="new-projectFlow" doc:id="8da94930-4e94-4824-b165-1b0cb530a1ca" >
+		<http:listener doc:name="Listener" doc:id="c4ef7064-e690-4277-aeb3-ab61234e89b8" config-ref="HTTP_Listener_config" path="/fetch"/>
+		<db:select doc:name="Select" doc:id="f2cf336e-0149-4332-80a0-f70dad528af9" config-ref="Database_Config">
+			<db:sql >select * from ledger</db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="68b0b9e3-4325-4710-8821-ce57bbf6fb69" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="bb2f2487-814e-454d-b618-4ff33223e630" message="#[payload]"/>
+	</flow>
+</mule>

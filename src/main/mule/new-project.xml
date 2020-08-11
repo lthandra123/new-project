@@ -12,9 +12,12 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="327a719d-d171-4408-8f6a-96fa66328440" >
 		<db:my-sql-connection host="localhost" port="3306" user="root" password="Miracle@1" database="oderapi" />
 	</db:config>
+	<db:config name="Database_Config1" doc:name="Database Config" doc:id="99a2429f-c0b3-4a5f-8afd-d81311ced476" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Miracle@1" database="oderapi" />
+	</db:config>
 	<flow name="new-projectFlow" doc:id="8da94930-4e94-4824-b165-1b0cb530a1ca" >
 		<http:listener doc:name="Listener" doc:id="c4ef7064-e690-4277-aeb3-ab61234e89b8" config-ref="HTTP_Listener_config" path="/fetch"/>
-		<db:select doc:name="Select" doc:id="f2cf336e-0149-4332-80a0-f70dad528af9" config-ref="Database_Config">
+		<db:select doc:name="Select" doc:id="7587accb-3825-4f50-b13f-b66ae5f5b5ce" config-ref="Database_Config1">
 			<db:sql >select * from ledger</db:sql>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="68b0b9e3-4325-4710-8821-ce57bbf6fb69" >
